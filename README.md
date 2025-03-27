@@ -1,5 +1,19 @@
 # Pokemon
 
+## Notes/suggestions from Isaiah
+
+//npm run build
+//Correct all error
+//Host on vercel after fixing the error!!!
+
+## To Do
+
+1. Randomizer
+2. Favorites
+3. clear search field after user clicks enter or the button
+4. finish desktop UI
+5. Complete responsiveness
+
 ## Santiago Jesus Montanez
 
 ## 03/24/2025

@@ -8,7 +8,7 @@ interface Context {
 }
 
 const SearchContext = createContext<Context>({
-    searchPokemon: "ditto",
+    searchPokemon: "",
     setSearchPokemon: (pokemon: string) => ""
 })
 

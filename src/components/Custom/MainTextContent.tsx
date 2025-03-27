@@ -5,11 +5,9 @@ import { useAppContext } from '../../context/context'
 
 import React, { useEffect, useState } from 'react'
 
-
 const MainTextContent = () => {
   const myAppContext = useAppContext();
 
-  const [userPokemonInput, setUserPokemonInput] = useState("")
 
   interface PokemonTypes {
     typeOne: string,
@@ -24,10 +22,20 @@ const MainTextContent = () => {
   let [pokemonMoves, setPokemonMoves] = useState<string[]>([])
   let [evolutionChain, setEvolutionChain] = useState("")
   let [pokemonEvolutions, setPokemonEvolutions] = useState<string[]>([])
+  let [buttonClicked, setButtonClick] = useState<string>("Location")
+
+  const buttonNames: string[] = ["Location", "Abilities", "Moves", "Evolution"]
+
+  useEffect(() => {
+    console.log(myAppContext.searchPokemon, 'Mintextcontext')
+  }, [])
 
   useEffect(() => {
     const fetchPokemon = async () => {
-      const pokemonData = await getPokemon(userPokemonInput != undefined || userPokemonInput != null ? "eevee" : userPokemonInput)
+
+      console.log("hitting use effect")
+
+      const pokemonData = await getPokemon(myAppContext.searchPokemon != undefined || myAppContext.searchPokemon != null ? myAppContext.searchPokemon : "eevee")
 
       setPokemonId(pokemonData.id);
       setPokemonName(pokemonData.name)
@@ -58,7 +66,7 @@ const MainTextContent = () => {
     }
 
     const fetchAbilitiesAndMoves = async () => {
-      const pokemonData = await getPokemon(userPokemonInput != undefined || userPokemonInput != null ? "eevee" : userPokemonInput)
+      const pokemonData = await getPokemon(myAppContext.searchPokemon != undefined || myAppContext.searchPokemon != null ? myAppContext.searchPokemon : "eevee")
 
       for (let i = 0; i < pokemonData.abilities.length; i++) {
         setPokemonAbilities(existingArray => [...existingArray, pokemonData.abilities[i].ability.name])
@@ -70,141 +78,111 @@ const MainTextContent = () => {
       }
     }
 
-
+    console.log(myAppContext.searchPokemon)
+    setPokemonEvolutions([])
+    setPokemonAbilities([])
+    setPokemonEncounter([])
+    setPokemonMoves([])
     fetchAbilitiesAndMoves()
     fetchPokemon()
-    fetchLocation(133)
-  }, [])
-
-  // useEffect(() => {
-  //   const fetchEvolutions = async () => {
-
-  //     const pokemonSpeciesData = await getSpecies(pokemonName)
-  //     setEvolutionChain(pokemonSpeciesData.evolution_chain.url)
-
-  //   }
-
-  //   fetchEvolutions()
-  // }, [pokemonName])
-
-  // useEffect(() => {
-
-  //   const secondEvoultionUseEffect = async () => {
-
-  //     const pokemonEvolutionData = await getEvolution(evolutionChain)
-
-
-  //     if (pokemonEvolutionData.chain.evolves_to.length != null) {
-
-  //       if (pokemonEvolutionData.chain.evolves_to.length > 1) {
-  //         setPokemonEvolutions(existingArray => [...existingArray, pokemonEvolutionData.chain.species.name])
-
-  //         for (let i = 0; i < pokemonEvolutionData.chain.evolves_to.length; i++) {
-  //           let checkPokeId = await getPokemon(pokemonEvolutionData.chain.evolves_to[i].species.name)
-  //           if (checkPokeId.id < 650) {
-  //             setPokemonEvolutions(existingArray => [...existingArray, pokemonEvolutionData.chain.evolves_to[i].species.name])
-  //           }
-  //         }
-  //       }
-  //       else {
-  //         let newChain = pokemonEvolutionData.chain;
-  //         do {
-  //           let checkPokeId = await getPokemon(newChain.species.name)
-  //           if (checkPokeId.id < 650) {
-  //             setPokemonEvolutions(existingArray => [...existingArray, newChain.species.name])
-  //           }
-
-  //           newChain = newChain.evolves_to[0];
-  //         }
-  //         while (newChain != null);
-  //       }
-  //     }
-
-  //     console.log(pokemonEvolutions)
-  //   }
-
-  //   secondEvoultionUseEffect()
-  // }, [evolutionChain])
-
+    fetchLocation(parseInt(pokemonId))
+  }, [myAppContext.searchPokemon])
 
   useEffect(() => {
-    const fetchSpecies = async () => {
-      try {
-        const pokemonSpeciesData = await getSpecies(pokemonName);
-  
-        if (!pokemonSpeciesData || !pokemonSpeciesData.evolution_chain) {
-          console.error("No evolution chain found for:", pokemonName);
-          return;
-        }
-  
-        setEvolutionChain(pokemonSpeciesData.evolution_chain.url);
-      } catch (error) {
-        console.error("Error fetching species data:", error);
-      }
-    };
-  
-    fetchSpecies();
-  }, [pokemonName]);
-  
-  useEffect(() => {
-    if (!evolutionChain) return; // Wait until evolutionChain is available
-  
     const fetchEvolutions = async () => {
-      try {
-        const pokemonEvolutionData = await getEvolution(evolutionChain);
-  
-        if (!pokemonEvolutionData?.chain) return;
-  
+
+      const pokemonSpeciesData = await getSpecies(pokemonName)
+      if (pokemonSpeciesData.evolution_chain != undefined) {
+        setEvolutionChain(pokemonSpeciesData.evolution_chain.url)
+      }
+
+    }
+
+    fetchEvolutions()
+  }, [pokemonName])
+
+  useEffect(() => {
+    const secondEvoultionUseEffect = async () => {
+
+      const pokemonEvolutionData = await getEvolution(evolutionChain)
+
+      if (pokemonEvolutionData.chain.evolves_to.length != null) {
+
         if (pokemonEvolutionData.chain.evolves_to.length > 1) {
-          setPokemonEvolutions(existingArray => [
-            ...existingArray,
-            pokemonEvolutionData.chain.species.name
-          ]);
-  
+          setPokemonEvolutions(existingArray => [...existingArray, pokemonEvolutionData.chain.species.name])
           for (let i = 0; i < pokemonEvolutionData.chain.evolves_to.length; i++) {
-            let checkPokeId = await getPokemon(pokemonEvolutionData.chain.evolves_to[i].species.name);
+            let checkPokeId = await getPokemon(pokemonEvolutionData.chain.evolves_to[i].species.name)
             if (checkPokeId.id < 650) {
-              setPokemonEvolutions(existingArray => [
-                ...existingArray,
-                pokemonEvolutionData.chain.evolves_to[i].species.name
-              ]);
+              setPokemonEvolutions(existingArray => [...existingArray, pokemonEvolutionData.chain.evolves_to[i].species.name])
             }
           }
-        } else {
-          let newChain = pokemonEvolutionData.chain;
-          do {
-            let checkPokeId = await getPokemon(newChain.species.name);
-            if (checkPokeId.id < 650) {
-              setPokemonEvolutions(existingArray => [...existingArray, newChain.species.name]);
-            }
-            newChain = newChain.evolves_to[0];
-          } while (newChain);
         }
-      } catch (error) {
-        console.error("Error fetching evolution data:", error);
+        else {
+          let newChain = pokemonEvolutionData.chain;
+          let tempArray: string[] = [];
+          console.log(tempArray, 'Beginning of temp array')
+          setPokemonEvolutions([])
+          do {
+            let checkPokeId = await getPokemon(newChain.species.name)
+            console.log(checkPokeId)
+            if (checkPokeId.id < 650) {
+              tempArray.push(newChain.species.name)
+            }
+
+            newChain = newChain.evolves_to[0];
+          }
+          while (newChain != null);
+          setPokemonEvolutions(tempArray)
+        }
       }
-    };
-  
-    fetchEvolutions();
-  }, [evolutionChain]); // Now this runs only when evolutionChain is available
-  
+    }
+
+    secondEvoultionUseEffect()
+  }, [evolutionChain])
+
+  const handleButtonClick = (buttonName: string) => {
+    console.log(buttonName)
+    setButtonClick(buttonName)
+  }
 
   return (
     <div>
-      <div className='flex justify-between ps-8 pt-4 pe-8 col-start-1 col-end-13 row-start-1 row-end-2'>
-        <h2 className='font-bold max-sm:text-[.9rem] max-sm:flex max-sm:flex-col'>Type: {pokemonType?.typeOne} {pokemonType?.typeTwo != undefined ? pokemonType?.typeTwo : ""}</h2>
-        <h2 className='font-bold max-sm:text-[.9rem] max-sm:flex max-sm:flex-col'>Name: {pokemonName}</h2>
-        <h2 className='font-bold max-sm:text-[.9rem] max-sm:flex max-sm:flex-col'>Pokedex#{pokemonId}</h2>
+
+      <div className='flex justify-around row-start-1 row-end-2 col-start-1 col-end-13'>
+        {
+          buttonNames.map((names, index) => {
+            return (
+              <div key={index}>
+                <button value={names} onClick={(e) => handleButtonClick(names)} className='hover:border-[#FF6961] hover:bg-white hover:underline lg:row-start-1 lg:row-end-2 lg:col-start-5 lg:col-end-7 max-lg:col-start-8 max-lg:col-end-12 rounded-[4rem] border-2 mt-4 text-black border-black bg-white'>{names}</button>
+              </div>
+            )
+          })
+        }
       </div>
-      <p className='col-start-1 col-end-13 row-start-2 row-end-13 hidden'>
-        {pokemonEncounters.length > 1 ? pokemonEncounters.join(" | ") : pokemonEncounters}
-      </p>
-      <p className='col-start-1 col-end-13 row-start-2 row-end-13'>
-        {pokemonMoves.length > 1 ? pokemonMoves.join(" | ") : pokemonMoves}
-      </p>
-      <p className='col-start-1 col-end-13 row-start-2 row-end-13'>
-        {pokemonAbilities.join(" | ")}
-      </p>
+
+      <div className='bg-[#ffffffBE]'>
+
+        <div className='flex justify-between ps-8 pt-4 pe-8 col-start-1 col-end-13 row-start-1 row-end-2'>
+          <h2 className='font-bold max-sm:text-[.9rem] max-sm:flex max-sm:flex-col'>Type: {pokemonType?.typeOne} {pokemonType?.typeTwo != undefined ? pokemonType?.typeTwo : ""}</h2>
+          <h2 className='font-bold max-sm:text-[.9rem] max-sm:flex max-sm:flex-col'>Name: {pokemonName}</h2>
+          <h2 className='font-bold max-sm:text-[.9rem] max-sm:flex max-sm:flex-col'>Pokedex#{pokemonId}</h2>
+        </div>
+        <div className=''>
+
+        </div>
+        <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Evolution" ? "" : "hidden"}`}>
+          {pokemonEvolutions.length > 1 ? pokemonEvolutions.join(" | ") : pokemonEvolutions}
+        </p>
+        <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Location" ? "" : "hidden"}`}>
+          {pokemonEncounters.length > 1 ? pokemonEncounters.join(" | ") : pokemonEncounters}
+        </p>
+        <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Moves" ? "" : "hidden"}`}>
+          {pokemonMoves.length > 1 ? pokemonMoves.join(" | ") : pokemonMoves}
+        </p>
+        <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Abilities" ? "" : "hidden"}`}>
+          {pokemonAbilities.join(" | ")}
+        </p>
+      </div>
     </div>
   )
 }
