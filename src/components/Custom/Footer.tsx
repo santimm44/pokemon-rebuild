@@ -3,6 +3,7 @@ import React, { useEffect, useState, KeyboardEvent } from 'react'
 import Shuffle from './Shuffle'
 import Arrow from './Arrow'
 import { useAppContext } from '@/context/context'
+import { getPokemon } from '@/lib/services'
 
 const Footer = () => {
 
@@ -18,10 +19,32 @@ const Footer = () => {
             myAppContext.setSearchPokemon(userInput)
         }
     }
-    const setSearchPokemonKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    const setSearchPokemonKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key == "Enter" && userInput != null && userInput != undefined) {
+
+            const parsedValue = parseInt(userInput, 10)
+
+            //logic to prevent names from pokemons past gen v from being searched
+            if(isNaN(parsedValue) && userInput != ""){
+                
+                let tempResponse = await getPokemon(userInput)
+
+                if(tempResponse.id >649){
+                    alert ("Sorry, but only pokemon below Gen V are searchable.\nHere is a ditto instead")
+                    myAppContext.setSearchPokemon("ditto")
+                }
+                else myAppContext.setSearchPokemon(userInput)
+
+            }
+            //logic to prevent id#s from pokemon past gen v from being searched
+            else if (!isNaN(parsedValue)){
+                if (parsedValue > 649){
+                    alert ("Sorry, but only pokemon below Gen V are searchable.\nHere is a ditto instead")
+                    myAppContext.setSearchPokemon("ditto")
+                } else myAppContext.setSearchPokemon(userInput)
+            }
             console.log("OnKeyDown occurs")
-            myAppContext.setSearchPokemon(userInput)
+            
         }
     }
 

@@ -22,7 +22,6 @@ const PokemonImage = () => {
       else setPokeData(false)
       
       if (pokeData) {
-        console.log(pokemonData)
         setPokemonSrcImage(pokemonData.sprites.front_default)
         if (pokemonData.sprites.shiny_default) setPokemonSrcShinyImage(pokemonData.sprites.shiny_default)
         setPokemonName(pokemonData.name)

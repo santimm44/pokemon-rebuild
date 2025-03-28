@@ -2,27 +2,10 @@ import { Santiago } from "@/context/context";
 
 //List of async functions
 const getPokemon = async (pokemon: Santiago) => {
-    let fetchData = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-    let data = await fetchData.json();
-    let counter=0
-    if(typeof pokemon === 'number'){
-        console.log(counter++)
-        if(pokemon<650){
-            return data
-        }
-        else{
-            fetchData = await fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
-            data = await fetchData.json()
-            alert("You cannot search any pokemon above Generation V")
-        }
-    }
-    else if(typeof pokemon == 'string') {
-        if(data.id>649){
-            fetchData = await fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
-            data = await fetchData.json()
-            alert("You cannot search any pokemon above Generation V")
-        }
-    }
+    
+    const fetchData = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+    const data = await fetchData.json();
+
     return data;
 }
 
