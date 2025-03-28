@@ -4,42 +4,49 @@ import React, { useEffect, useState } from 'react'
 import heart from '/public/heart-regular.svg'
 import solidHeartImg from '/public/heart-solid.svg'
 import { Button } from '../ui/button'
-import { findPokemon, getLocalStorage, removeFromLocalStorage, saveToLocalStorageByName } from '@/lib/services'
+import { findPokemon, getLocalStorage, getPokemon, removeFromLocalStorage, saveToLocalStorageByName } from '@/lib/services'
 import { useAppContext } from '@/context/context'
-
 
 const Heart = () => {
 
   const myAppContext = useAppContext();
 
-  const [heartSolidStatus, setHeartSolidStatus] = useState<boolean>()
-
-  let solidHeart: boolean//instead of true use a turnery to see if it is in localstorage for favorites
+  let [pokemonName, setPokemonName] = useState<string>()
+  let [solidHeart, setSolidHeart] = useState<boolean>()
+let [pokemonNameDefined, setpokemoneNameDefined] = useState<boolean>(true)
   useEffect(() => {
-    solidHeart=findPokemon(myAppContext.searchPokemon);
-    if(solidHeart)setHeartSolidStatus(true)
-      else setHeartSolidStatus(false)
+    setPokemon()
   }, [myAppContext.searchPokemon])
 
-  console.log()
+  useEffect(() => {
+    
+    if(pokemonName == undefined) setpokemoneNameDefined(false)
+      else setpokemoneNameDefined(true)
+    
+    if (pokemonName && pokemonNameDefined) {
+      setSolidHeart(findPokemon(pokemonName))
+    }
+  }, [pokemonName, pokemonNameDefined])
 
   const handleOnClick = () => {
     if (solidHeart) {
-      removeFromLocalStorage(myAppContext.searchPokemon)
-      setHeartSolidStatus(false)
+      removeFromLocalStorage(pokemonName)
+      setSolidHeart(false)
     }
     else {
-      saveToLocalStorageByName(myAppContext.searchPokemon)
-      setHeartSolidStatus(true)
+      setSolidHeart(true)
+      saveToLocalStorageByName(pokemonName)
     }
   }
 
-
-
+  const setPokemon = async () => {
+    const pokemonData = await getPokemon(myAppContext.searchPokemon)
+    setPokemonName(pokemonData.name)
+  }
 
   return (
     <Button variant="ghost" onClick={handleOnClick} className='hover:bg-transparent'>
-      <Image className='h-[40px] w-auto' src={heartSolidStatus ? solidHeartImg : heart} alt={heartSolidStatus ? "Solid Heart Icon" : "Regular Heart Icon"} />
+      <Image className='h-[40px] w-auto' src={solidHeart ? solidHeartImg : heart} alt={solidHeart ? "Solid Heart Icon" : "Regular Heart Icon"} />
     </Button>
   )
 }

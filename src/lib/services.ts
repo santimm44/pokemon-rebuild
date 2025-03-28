@@ -1,8 +1,28 @@
-//List of async functions
-const getPokemon = async (pokemon: string) => {
-    const fetchData = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-    const data = await fetchData.json();
+import { Santiago } from "@/context/context";
 
+//List of async functions
+const getPokemon = async (pokemon: Santiago) => {
+    let fetchData = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+    let data = await fetchData.json();
+    let counter=0
+    if(typeof pokemon === 'number'){
+        console.log(counter++)
+        if(pokemon<650){
+            return data
+        }
+        else{
+            fetchData = await fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
+            data = await fetchData.json()
+            alert("You cannot search any pokemon above Generation V")
+        }
+    }
+    else if(typeof pokemon == 'string') {
+        if(data.id>649){
+            fetchData = await fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
+            data = await fetchData.json()
+            alert("You cannot search any pokemon above Generation V")
+        }
+    }
     return data;
 }
 
@@ -36,28 +56,33 @@ const getLocalStorage = () => {
     return JSON.parse(localStorageData)
 }
 
-const removeFromLocalStorage = (pokemon: string) => {
+const removeFromLocalStorage = (pokemon: string | undefined) => {
     if (typeof window === 'undefined') return; // Prevents error on server
 
-    let namesArr = getLocalStorage();
+    if (pokemon != undefined) {
+        let namesArr = getLocalStorage();
 
-    let nameindex = namesArr.indexOf(pokemon);
+        let nameindex = namesArr.indexOf(pokemon);
 
-    if (nameindex !== -1) {
-        namesArr.splice(nameindex, 1);
+        if (nameindex !== -1) {
+            namesArr.splice(nameindex, 1);
+            localStorage.setItem('NextJSPokemon', JSON.stringify(namesArr));
+        }
+    }
+
+}
+const saveToLocalStorageByName = (pokemon: string | undefined) => {
+    if (typeof window === 'undefined') return; // Prevents error on server
+
+    if (pokemon != undefined) {
+        let namesArr = getLocalStorage();
+
+        if (!namesArr.includes(pokemon)) {
+            namesArr.push(pokemon);
+        }
+
         localStorage.setItem('NextJSPokemon', JSON.stringify(namesArr));
     }
-}
-const saveToLocalStorageByName = (pokemon: string) => {
-    if (typeof window === 'undefined') return; // Prevents error on server
-
-    let namesArr = getLocalStorage();
-
-    if (!namesArr.includes(pokemon)) {
-        namesArr.push(pokemon);
-    }
-
-    localStorage.setItem('NextJSPokemon', JSON.stringify(namesArr));
 }
 const findPokemon = (pokemon: string) => {
     if (typeof window !== 'undefined') {

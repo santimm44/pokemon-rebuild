@@ -26,17 +26,13 @@ const MainTextContent = () => {
 
   const buttonNames: string[] = ["Location", "Abilities", "Moves", "Evolution"]
 
-  useEffect(() => {
-    console.log(myAppContext.searchPokemon, 'Mintextcontext')
-  }, [])
+
 
   useEffect(() => {
     const fetchPokemon = async () => {
 
-      console.log("hitting use effect")
-
       const pokemonData = await getPokemon(myAppContext.searchPokemon != undefined || myAppContext.searchPokemon != null ? myAppContext.searchPokemon : "eevee")
-
+      
       setPokemonId(pokemonData.id);
       setPokemonName(pokemonData.name)
       for (let i = 0; i < pokemonData.types.length; i++) {
@@ -53,18 +49,6 @@ const MainTextContent = () => {
       }
     }
 
-    const fetchLocation = async (idNumber: number) => {
-      const pokemonLocationData: { location_area: { name: string } }[] = await getLocation(idNumber)
-
-      if (pokemonLocationData.length > 0) {
-
-        for (let i = 0; i < pokemonLocationData.length; i++) {
-          setPokemonEncounter(existingArray => [...existingArray, pokemonLocationData[i].location_area.name])
-        }
-      }
-      else setPokemonEncounter(["N/A"]);
-    }
-
     const fetchAbilitiesAndMoves = async () => {
       const pokemonData = await getPokemon(myAppContext.searchPokemon != undefined || myAppContext.searchPokemon != null ? myAppContext.searchPokemon : "eevee")
 
@@ -78,15 +62,32 @@ const MainTextContent = () => {
       }
     }
 
-    console.log(myAppContext.searchPokemon)
     setPokemonEvolutions([])
     setPokemonAbilities([])
     setPokemonEncounter([])
     setPokemonMoves([])
     fetchAbilitiesAndMoves()
     fetchPokemon()
-    fetchLocation(parseInt(pokemonId))
   }, [myAppContext.searchPokemon])
+  
+  useEffect(()=>{
+
+    const fetchLocation = async (idNumber: number) => {
+      const pokemonLocationData: { location_area: { name: string } }[] = await getLocation(idNumber)
+
+      if (pokemonLocationData.length > 0) {
+
+        for (let i = 0; i < pokemonLocationData.length; i++) {
+          setPokemonEncounter(existingArray => [...existingArray, pokemonLocationData[i].location_area.name])
+        }
+      }
+      else setPokemonEncounter(["N/A"]);
+    }
+    
+    if(pokemonId != ""){
+      fetchLocation(parseInt(pokemonId))
+    }
+  },[pokemonId])
 
   useEffect(() => {
     const fetchEvolutions = async () => {
@@ -120,11 +121,11 @@ const MainTextContent = () => {
         else {
           let newChain = pokemonEvolutionData.chain;
           let tempArray: string[] = [];
-          console.log(tempArray, 'Beginning of temp array')
+          
           setPokemonEvolutions([])
           do {
             let checkPokeId = await getPokemon(newChain.species.name)
-            console.log(checkPokeId)
+
             if (checkPokeId.id < 650) {
               tempArray.push(newChain.species.name)
             }

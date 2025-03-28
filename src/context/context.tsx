@@ -3,20 +3,22 @@
 import React, { createContext, useContext, useState } from "react"
 
 interface Context {
-    searchPokemon: string,
-    setSearchPokemon: (pokemon: string) => void
+    searchPokemon: Santiago,
+    setSearchPokemon: (pokemon: Santiago) => void
 }
+
+export type Santiago = string | number
 
 const SearchContext = createContext<Context>({
     searchPokemon: "",
-    setSearchPokemon: (pokemon: string) => ""
+    setSearchPokemon: (pokemon: Santiago) => ""
 })
 
-export function AppWrapper({children}: {children: React.ReactNode}){
-    const [searchPokemon, setSearchPokemon]= useState("ditto");
+export function AppWrapper({ children }: { children: React.ReactNode }) {
+    const [searchPokemon, setSearchPokemon] = useState<Santiago>("ditto");
 
-    return(
-        <SearchContext.Provider value={{searchPokemon, setSearchPokemon}}>
+    return (
+        <SearchContext.Provider value={{ searchPokemon, setSearchPokemon }}>
             {children}
         </SearchContext.Provider>
     )

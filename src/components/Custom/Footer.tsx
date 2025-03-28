@@ -25,15 +25,10 @@ const Footer = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(userInput)
-        console.log(myAppContext.searchPokemon)
-
-    }, [userInput])
-
-    useEffect(() => {
-        console.log(myAppContext.searchPokemon)
-    }, [myAppContext.searchPokemon])
+    const handleRandomizer=()=>{
+        const idNumber:number = Math.floor(Math.random() * 649);
+        myAppContext.setSearchPokemon(idNumber)
+    }
 
     return (
         <div className='flex w-full'>
@@ -50,7 +45,7 @@ const Footer = () => {
                 </button>
             </div>
             <div id='randomizer' className='bg-white w-1/3'>
-                <button>
+                <button onClick={handleRandomizer}>
                     <p>Randomizer</p>
                 </button>
             </div>
