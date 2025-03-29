@@ -2,6 +2,7 @@
 
 import { useAppContext } from '@/context/context';
 import { getPokemon } from '@/lib/services'
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 
 const PokemonImage = () => {
@@ -39,7 +40,7 @@ const PokemonImage = () => {
 
   return (
     <div>
-      <img width={325} src={
+      <Image width={325} height={100} src={
         !shinyOrNot ? pokemonSrcImage : pokemonSrcShinyImage} alt={pokemonName} />
     </div>
   )
