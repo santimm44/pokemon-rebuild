@@ -16,26 +16,29 @@ const PokemonImage = () => {
 
   useEffect(() => {
     const fetchPokemonImage = async () => {
-      const pokemonData = await getPokemon(myAppContext.searchPokemon != undefined || myAppContext.searchPokemon != null ? myAppContext.searchPokemon : "eevee")
-      
-      if (pokemonData != null || pokemonData != undefined) setPokeData(true)
-      else setPokeData(false)
-      
-      if (pokeData) {
-        console.log(pokemonData)
-        setPokemonSrcImage(pokemonData.sprites.front_default)
-        console.log(pokemonData.sprites.front_shiny)
-        setPokemonSrcShinyImage(pokemonData.sprites.shiny_default)
-        setPokemonName(pokemonData.name)
+      const pokemonData = await getPokemon(myAppContext.searchPokemon ? myAppContext.searchPokemon : "eevee");
+  
+      if (pokemonData) {
+        setPokeData(true);
+        console.log(pokemonData);
+        setPokemonSrcImage(pokemonData.sprites.front_default);
+        console.log(pokemonData.sprites.front_shiny);
+        if (pokemonData.sprites.front_shiny) {
+          setPokemonSrcShinyImage(pokemonData.sprites.front_shiny);
+        }
+        setPokemonName(pokemonData.name);
+      } else {
+        setPokeData(false);
       }
-    }
-    fetchPokemonImage()
-  }, [myAppContext.searchPokemon, pokeData])
+    };
+  
+    fetchPokemonImage();
+  }, [myAppContext.searchPokemon]);
 
-  useEffect(()=>{
-    if(myAppContext.switchOn) setShinyOrNot(true)
-      else setShinyOrNot(false)
-  },[myAppContext.switchOn])
+  useEffect(() => {
+    if (myAppContext.switchOn) setShinyOrNot(true)
+    else setShinyOrNot(false)
+  }, [myAppContext.switchOn])
 
 
   return (

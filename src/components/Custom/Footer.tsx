@@ -52,11 +52,15 @@ const Footer = () => {
         const idNumber:number = Math.floor(Math.random() * 649);
         myAppContext.setSearchPokemon(idNumber)
     }
+    const handleClick = ()=>{
+        if(!myAppContext.showFavorites) myAppContext.setShowFavorites(true)
+          else myAppContext.setShowFavorites(false)
+      }
 
     return (
         <div className='flex w-full'>
             <div id='favorites' className='bg-white w-1/3'>
-                <button className='flex'>
+                <button onClick={handleClick} className='flex w-full justify-around cursor-pointer'>
                     <p>Favorites</p>
                     <Shuffle />
                 </button>
@@ -68,7 +72,7 @@ const Footer = () => {
                 </button>
             </div>
             <div id='randomizer' className='bg-white w-1/3'>
-                <button onClick={handleRandomizer}>
+                <button className='cursor-pointer w-full' onClick={handleRandomizer}>
                     <p>Randomizer</p>
                 </button>
             </div>

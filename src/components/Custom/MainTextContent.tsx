@@ -1,6 +1,6 @@
 'use client'
 
-import { getEvolution, getLocation, getPokemon, getSpecies } from '@/lib/services';
+import { getEvolution, getLocalStorage, getLocation, getPokemon, getSpecies } from '@/lib/services';
 import { useAppContext } from '../../context/context'
 
 import React, { useEffect, useState } from 'react'
@@ -23,16 +23,35 @@ const MainTextContent = () => {
   const [evolutionChain, setEvolutionChain] = useState("")
   const [pokemonEvolutions, setPokemonEvolutions] = useState<string[]>([])
   const [buttonClicked, setButtonClick] = useState<string>("Location")
+  const [favoriteList, setFavoriteList] = useState<string[]>([])
 
   const buttonNames: string[] = ["Location", "Abilities", "Moves", "Evolution"]
 
+  const handleButtonClick = (buttonName: string) => {
+    console.log(buttonName)
+    setButtonClick(buttonName)
+  }
+
+  const handleFavoriteButtons = (name: string) => {
+    console.log(name)
+    myAppContext.setSearchPokemon(name)
+
+  }
+
+  useEffect(() => {
+    console.log(getLocalStorage())
+    setFavoriteList(getLocalStorage())
+    if (myAppContext.showFavorites == true) {
+      setButtonClick("Favorites")
+    }
+  }, [myAppContext.showFavorites])
 
 
   useEffect(() => {
     const fetchPokemon = async () => {
 
       const pokemonData = await getPokemon(myAppContext.searchPokemon != undefined || myAppContext.searchPokemon != null ? myAppContext.searchPokemon : "eevee")
-      
+
       setPokemonId(pokemonData.id);
       setPokemonName(pokemonData.name)
       for (let i = 0; i < pokemonData.types.length; i++) {
@@ -69,8 +88,8 @@ const MainTextContent = () => {
     fetchAbilitiesAndMoves()
     fetchPokemon()
   }, [myAppContext.searchPokemon])
-  
-  useEffect(()=>{
+
+  useEffect(() => {
 
     const fetchLocation = async (idNumber: number) => {
       const pokemonLocationData: { location_area: { name: string } }[] = await getLocation(idNumber)
@@ -83,11 +102,11 @@ const MainTextContent = () => {
       }
       else setPokemonEncounter(["N/A"]);
     }
-    
-    if(pokemonId != ""){
+
+    if (pokemonId != "") {
       fetchLocation(parseInt(pokemonId))
     }
-  },[pokemonId])
+  }, [pokemonId])
 
   useEffect(() => {
     const fetchEvolutions = async () => {
@@ -121,7 +140,7 @@ const MainTextContent = () => {
         else {
           let newChain = pokemonEvolutionData.chain;
           const tempArray: string[] = [];
-          
+
           setPokemonEvolutions([])
           do {
             const checkPokeId = await getPokemon(newChain.species.name)
@@ -141,10 +160,7 @@ const MainTextContent = () => {
     secondEvoultionUseEffect()
   }, [evolutionChain])
 
-  const handleButtonClick = (buttonName: string) => {
-    console.log(buttonName)
-    setButtonClick(buttonName)
-  }
+
 
   return (
     <div>
@@ -154,7 +170,7 @@ const MainTextContent = () => {
           buttonNames.map((names, index) => {
             return (
               <div key={index}>
-                <button value={names} onClick={() => handleButtonClick(names)} className='hover:border-[#FF6961] hover:bg-white hover:underline lg:row-start-1 lg:row-end-2 lg:col-start-5 lg:col-end-7 max-lg:col-start-8 max-lg:col-end-12 rounded-[4rem] border-2 mt-4 text-black border-black bg-white'>{names}</button>
+                <button value={names} onClick={() => handleButtonClick(names)} className='hover:border-[#FF6961] cursor-pointer hover:bg-white hover:underline lg:row-start-1 lg:row-end-2 lg:col-start-5 lg:col-end-7 max-lg:col-start-8 max-lg:col-end-12 rounded-[4rem] border-2 mt-4 text-black border-black bg-white'>{names}</button>
               </div>
             )
           })
@@ -183,6 +199,23 @@ const MainTextContent = () => {
         <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Abilities" ? "" : "hidden"}`}>
           {pokemonAbilities.join(" | ")}
         </p>
+
+        <div className={`p-5 col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Favorites" ? "" : "hidden"}`}>
+          Your Favorite Pokemon:
+          <div className='grid grid-cols-3 '>
+          {favoriteList.map((pokemon, index) => {
+            return (
+              <div key={index}>
+
+                <br />
+                <button onClick={() => handleFavoriteButtons(pokemon)} className='underline hover:text-blue-500'>
+                  {pokemon}
+                </button>
+              </div>
+            )
+          })}
+          </div>
+        </div>
       </div>
     </div>
   )
