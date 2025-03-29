@@ -48,3 +48,6 @@ Things to turn in:
   - github
   - hosted in Vercel or Azure
   - figma
+
+Peer: David Monterrosa
+Review: Overall everything functions as it should. I don't seen any glaring issues on that front. there are some minor issues with responsiveness which you can adjust. Specifically your menu button toggles that display the information like location, abilities, etc appears to overflow its container. Also the display area shrinks down a lot leaving a large gap. If you stack the pokemon image and the information display area, that should resolve both issues. Other than taht Great job with functionality.
