@@ -13,9 +13,9 @@ interface Context {
 
 const SearchContext = createContext<Context>({
     searchPokemon: "",
-    setSearchPokemon: (pokemon: Santiago) => "",
+    setSearchPokemon: () => {},
     switchOn: false,
-    setSwitchOn: (toggle: boolean)=>{}
+    setSwitchOn: ()=>{}
 })
 
 
