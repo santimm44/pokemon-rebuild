@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState, KeyboardEvent } from 'react'
+import React, {  useState, KeyboardEvent } from 'react'
 import Shuffle from './Shuffle'
 import Arrow from './Arrow'
 import { useAppContext } from '@/context/context'
@@ -27,7 +27,7 @@ const Footer = () => {
             //logic to prevent names from pokemons past gen v from being searched
             if(isNaN(parsedValue) && userInput != ""){
                 
-                let tempResponse = await getPokemon(userInput)
+                const tempResponse = await getPokemon(userInput)
 
                 if(tempResponse.id >649){
                     alert ("Sorry, but only pokemon below Gen V are searchable.\nHere is a ditto instead")

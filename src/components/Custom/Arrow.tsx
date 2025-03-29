@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
 import arrowPicture from '/public/arrow-right-solid.svg'
-import { Button } from '../ui/button'
 const Arrow = () => {
     return (
         <div>

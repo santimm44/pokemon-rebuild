@@ -14,15 +14,15 @@ const MainTextContent = () => {
     typeTwo: string
   }
 
-  let [pokemonType, setPokemonType] = useState<PokemonTypes>()
-  let [pokemonName, setPokemonName] = useState("")
-  let [pokemonId, setPokemonId] = useState("")
-  let [pokemonEncounters, setPokemonEncounter] = useState<string[]>([])
-  let [pokemonAbilities, setPokemonAbilities] = useState<string[]>([])
-  let [pokemonMoves, setPokemonMoves] = useState<string[]>([])
-  let [evolutionChain, setEvolutionChain] = useState("")
-  let [pokemonEvolutions, setPokemonEvolutions] = useState<string[]>([])
-  let [buttonClicked, setButtonClick] = useState<string>("Location")
+  const [pokemonType, setPokemonType] = useState<PokemonTypes>()
+  const [pokemonName, setPokemonName] = useState("")
+  const [pokemonId, setPokemonId] = useState("")
+  const [pokemonEncounters, setPokemonEncounter] = useState<string[]>([])
+  const [pokemonAbilities, setPokemonAbilities] = useState<string[]>([])
+  const [pokemonMoves, setPokemonMoves] = useState<string[]>([])
+  const [evolutionChain, setEvolutionChain] = useState("")
+  const [pokemonEvolutions, setPokemonEvolutions] = useState<string[]>([])
+  const [buttonClicked, setButtonClick] = useState<string>("Location")
 
   const buttonNames: string[] = ["Location", "Abilities", "Moves", "Evolution"]
 
@@ -112,7 +112,7 @@ const MainTextContent = () => {
         if (pokemonEvolutionData.chain.evolves_to.length > 1) {
           setPokemonEvolutions(existingArray => [...existingArray, pokemonEvolutionData.chain.species.name])
           for (let i = 0; i < pokemonEvolutionData.chain.evolves_to.length; i++) {
-            let checkPokeId = await getPokemon(pokemonEvolutionData.chain.evolves_to[i].species.name)
+            const checkPokeId = await getPokemon(pokemonEvolutionData.chain.evolves_to[i].species.name)
             if (checkPokeId.id < 650) {
               setPokemonEvolutions(existingArray => [...existingArray, pokemonEvolutionData.chain.evolves_to[i].species.name])
             }
@@ -120,11 +120,11 @@ const MainTextContent = () => {
         }
         else {
           let newChain = pokemonEvolutionData.chain;
-          let tempArray: string[] = [];
+          const tempArray: string[] = [];
           
           setPokemonEvolutions([])
           do {
-            let checkPokeId = await getPokemon(newChain.species.name)
+            const checkPokeId = await getPokemon(newChain.species.name)
 
             if (checkPokeId.id < 650) {
               tempArray.push(newChain.species.name)
@@ -154,7 +154,7 @@ const MainTextContent = () => {
           buttonNames.map((names, index) => {
             return (
               <div key={index}>
-                <button value={names} onClick={(e) => handleButtonClick(names)} className='hover:border-[#FF6961] hover:bg-white hover:underline lg:row-start-1 lg:row-end-2 lg:col-start-5 lg:col-end-7 max-lg:col-start-8 max-lg:col-end-12 rounded-[4rem] border-2 mt-4 text-black border-black bg-white'>{names}</button>
+                <button value={names} onClick={() => handleButtonClick(names)} className='hover:border-[#FF6961] hover:bg-white hover:underline lg:row-start-1 lg:row-end-2 lg:col-start-5 lg:col-end-7 max-lg:col-start-8 max-lg:col-end-12 rounded-[4rem] border-2 mt-4 text-black border-black bg-white'>{names}</button>
               </div>
             )
           })

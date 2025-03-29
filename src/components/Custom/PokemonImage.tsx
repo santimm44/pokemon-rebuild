@@ -2,17 +2,16 @@
 
 import { useAppContext } from '@/context/context';
 import { getPokemon } from '@/lib/services'
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 
 const PokemonImage = () => {
   const myAppContext = useAppContext();
 
-  let [pokemonName, setPokemonName] = useState("")
-  let [pokemonSrcImage, setPokemonSrcImage] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png")
-  let [pokemonSrcShinyImage, setPokemonSrcShinyImage] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/132.png")
-  let [shinyOrNot, setShinyOrNot] = useState()
-  let [pokeData, setPokeData] = useState<boolean>(false)
+  const [pokemonName, setPokemonName] = useState("")
+  const [pokemonSrcImage, setPokemonSrcImage] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png")
+  const [pokemonSrcShinyImage, setPokemonSrcShinyImage] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/132.png")
+  const [shinyOrNot, setShinyOrNot] = useState(false)
+  const [pokeData, setPokeData] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchPokemonImage = async () => {
@@ -22,13 +21,20 @@ const PokemonImage = () => {
       else setPokeData(false)
       
       if (pokeData) {
+        console.log(pokemonData)
         setPokemonSrcImage(pokemonData.sprites.front_default)
-        if (pokemonData.sprites.shiny_default) setPokemonSrcShinyImage(pokemonData.sprites.shiny_default)
+        console.log(pokemonData.sprites.front_shiny)
+        setPokemonSrcShinyImage(pokemonData.sprites.shiny_default)
         setPokemonName(pokemonData.name)
       }
     }
     fetchPokemonImage()
   }, [myAppContext.searchPokemon, pokeData])
+
+  useEffect(()=>{
+    if(myAppContext.switchOn) setShinyOrNot(true)
+      else setShinyOrNot(false)
+  },[myAppContext.switchOn])
 
 
   return (

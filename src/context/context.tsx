@@ -15,7 +15,7 @@ const SearchContext = createContext<Context>({
     searchPokemon: "",
     setSearchPokemon: (pokemon: Santiago) => "",
     switchOn: false,
-    setSwitchOn: ()=>{}
+    setSwitchOn: (toggle: boolean)=>{}
 })
 
 

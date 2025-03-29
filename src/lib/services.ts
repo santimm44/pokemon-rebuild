@@ -32,7 +32,7 @@ const getLocation = async (id: number) => {
 const getLocalStorage = () => {
     if (typeof window === 'undefined') return [];
 
-    let localStorageData = localStorage.getItem("NextJSPokemon")
+    const localStorageData = localStorage.getItem("NextJSPokemon")
 
     if (localStorageData == null) return [];
 
@@ -43,9 +43,9 @@ const removeFromLocalStorage = (pokemon: string | undefined) => {
     if (typeof window === 'undefined') return; // Prevents error on server
 
     if (pokemon != undefined) {
-        let namesArr = getLocalStorage();
+        const namesArr = getLocalStorage();
 
-        let nameindex = namesArr.indexOf(pokemon);
+        const nameindex = namesArr.indexOf(pokemon);
 
         if (nameindex !== -1) {
             namesArr.splice(nameindex, 1);
@@ -58,7 +58,7 @@ const saveToLocalStorageByName = (pokemon: string | undefined) => {
     if (typeof window === 'undefined') return; // Prevents error on server
 
     if (pokemon != undefined) {
-        let namesArr = getLocalStorage();
+        const namesArr = getLocalStorage();
 
         if (!namesArr.includes(pokemon)) {
             namesArr.push(pokemon);
@@ -69,7 +69,7 @@ const saveToLocalStorageByName = (pokemon: string | undefined) => {
 }
 const findPokemon = (pokemon: string) => {
     if (typeof window !== 'undefined') {
-        let namesArr = getLocalStorage();
+        const namesArr = getLocalStorage();
 
         if (namesArr.includes(pokemon)) return true
     }

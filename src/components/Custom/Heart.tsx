@@ -4,25 +4,25 @@ import React, { useEffect, useState } from 'react'
 import heart from '/public/heart-regular.svg'
 import solidHeartImg from '/public/heart-solid.svg'
 import { Button } from '../ui/button'
-import { findPokemon, getLocalStorage, getPokemon, removeFromLocalStorage, saveToLocalStorageByName } from '@/lib/services'
+import { findPokemon, getPokemon, removeFromLocalStorage, saveToLocalStorageByName } from '@/lib/services'
 import { useAppContext } from '@/context/context'
 
 const Heart = () => {
 
   const myAppContext = useAppContext();
 
-  let [pokemonName, setPokemonName] = useState<string>()
-  let [solidHeart, setSolidHeart] = useState<boolean>()
-let [pokemonNameDefined, setpokemoneNameDefined] = useState<boolean>(true)
+  const [pokemonName, setPokemonName] = useState<string>()
+  const [solidHeart, setSolidHeart] = useState<boolean>()
+  const [pokemonNameDefined, setpokemoneNameDefined] = useState<boolean>(true)
   useEffect(() => {
     setPokemon()
   }, [myAppContext.searchPokemon])
 
   useEffect(() => {
-    
-    if(pokemonName == undefined) setpokemoneNameDefined(false)
-      else setpokemoneNameDefined(true)
-    
+
+    if (pokemonName == undefined) setpokemoneNameDefined(false)
+    else setpokemoneNameDefined(true)
+
     if (pokemonName && pokemonNameDefined) {
       setSolidHeart(findPokemon(pokemonName))
     }

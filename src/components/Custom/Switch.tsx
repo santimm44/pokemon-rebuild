@@ -1,18 +1,22 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import switcher from '/public/arrow-right-arrow-left-solid.svg'
 import { Button } from '../ui/button'
-import { getPokemon } from '@/lib/services'
 import { useAppContext } from '@/context/context'
 
 export const Switch = () => {
-const switchContext = useAppContext
+const { switchOn, setSwitchOn } = useAppContext()
 
     const handleClick =()=>{
-        // <switchContext className="set"></switchContext>
-        
+        if(!switchOn) setSwitchOn(true)
+            else setSwitchOn(false)  
+        console.log(switchOn)
     }
+
+    useEffect(()=>{
+        console.log(switchOn)
+    },[switchOn])
 
     return (
         <Button onClick={handleClick} variant="ghost" className='hover:bg-transparent'>

@@ -1,7 +1,6 @@
 
 import React from 'react'
 import Heart from '@/components/Custom/Heart'
-import Shuffle from '@/components/Custom/Shuffle'
 import MainTextContent from '@/components/Custom/MainTextContent'
 import PokemonImage from '@/components/Custom/PokemonImage'
 import { Switch } from '@/components/Custom/Switch'
