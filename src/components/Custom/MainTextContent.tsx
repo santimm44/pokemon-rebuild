@@ -163,7 +163,7 @@ const MainTextContent = () => {
 
 
   return (
-    <div>
+    <div className='flex flex-col h-full bg-red-300 gap-y-6 '>
 
       <div className='flex justify-around row-start-1 row-end-2 col-start-1 col-end-13'>
         {
@@ -187,33 +187,36 @@ const MainTextContent = () => {
         <div className=''>
 
         </div>
-        <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Evolution" ? "" : "hidden"}`}>
-          {pokemonEvolutions.length > 1 ? pokemonEvolutions.join(" | ") : pokemonEvolutions}
-        </p>
-        <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Location" ? "" : "hidden"}`}>
-          {pokemonEncounters.length > 1 ? pokemonEncounters.join(" | ") : pokemonEncounters}
-        </p>
-        <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Moves" ? "" : "hidden"}`}>
-          {pokemonMoves.length > 1 ? pokemonMoves.join(" | ") : pokemonMoves}
-        </p>
-        <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Abilities" ? "" : "hidden"}`}>
-          {pokemonAbilities.join(" | ")}
-        </p>
+        <div id='bodyOfText' className=' overflow-y-scroll'>
 
-        <div className={`p-5 col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Favorites" ? "" : "hidden"}`}>
-          Your Favorite Pokemon:
-          <div className='grid grid-cols-3 '>
-          {favoriteList.map((pokemon, index) => {
-            return (
-              <div key={index}>
+          <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Evolution" ? "" : "hidden"}`}>
+            {pokemonEvolutions.length > 1 ? pokemonEvolutions.join(" | ") : pokemonEvolutions}
+          </p>
+          <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Location" ? "" : "hidden"}`}>
+            {pokemonEncounters.length > 1 ? pokemonEncounters.join(" | ") : pokemonEncounters}
+          </p>
+          <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Moves" ? "" : "hidden"}`}>
+            {pokemonMoves.length > 1 ? pokemonMoves.join(" | ") : pokemonMoves}
+          </p>
+          <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Abilities" ? "" : "hidden"}`}>
+            {pokemonAbilities.join(" | ")}
+          </p>
 
-                <br />
-                <button onClick={() => handleFavoriteButtons(pokemon)} className='underline hover:text-blue-500'>
-                  {pokemon}
-                </button>
-              </div>
-            )
-          })}
+          <div className={`p-5 col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Favorites" ? "" : "hidden"}`}>
+            Your Favorite Pokemon:
+            <div className='grid grid-cols-3 '>
+              {favoriteList.map((pokemon, index) => {
+                return (
+                  <div key={index}>
+
+                    <br />
+                    <button onClick={() => handleFavoriteButtons(pokemon)} className='underline hover:text-blue-500'>
+                      {pokemon}
+                    </button>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>

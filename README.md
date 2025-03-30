@@ -49,5 +49,12 @@ Things to turn in:
   - hosted in Vercel or Azure
   - figma
 
-Peer: David Monterrosa
-Review: Overall everything functions as it should. I don't seen any glaring issues on that front. there are some minor issues with responsiveness which you can adjust. Specifically your menu button toggles that display the information like location, abilities, etc appears to overflow its container. Also the display area shrinks down a lot leaving a large gap. If you stack the pokemon image and the information display area, that should resolve both issues. Other than taht Great job with functionality.
+## Peer: David Monterrosa
+
+### Review
+
+Overall everything functions as it should. I don't seen any glaring issues on that front. there are some minor issues with responsiveness which you can adjust. Specifically your menu button toggles that display the information like location, abilities, etc appears to overflow its container. Also the display area shrinks down a lot leaving a large gap. If you stack the pokemon image and the information display area, that should resolve both issues. Other than taht Great job with functionality.
+
+## Response to Peer review
+
+I was unable to fix the issues mentioned. I am having a hard time trying to resolve the overflow. Tried adding overflow-y-scroll at a few different places, but it seems to still grow. Looking into how to resolve the issue. As for the large gap... Unsure where it is you are seeing it or what you did to begin seeing it, so I don't know how to move forward with it.
