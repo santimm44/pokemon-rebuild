@@ -24,27 +24,22 @@ const Footer = () => {
 
             const parsedValue = parseInt(userInput, 10)
 
-            //logic to prevent names from pokemons past gen v from being searched
             if(isNaN(parsedValue) && userInput != ""){
-                
+
                 const tempResponse = await getPokemon(userInput)
 
                 if(tempResponse.id >649){
-                    alert ("Sorry, but only pokemon below Gen V are searchable.\nHere is a ditto instead")
                     myAppContext.setSearchPokemon("ditto")
                 }
                 else myAppContext.setSearchPokemon(userInput)
 
             }
-            //logic to prevent id#s from pokemon past gen v from being searched
+
             else if (!isNaN(parsedValue)){
                 if (parsedValue > 649){
-                    alert ("Sorry, but only pokemon below Gen V are searchable.\nHere is a ditto instead")
                     myAppContext.setSearchPokemon("ditto")
                 } else myAppContext.setSearchPokemon(userInput)
             }
-            console.log("OnKeyDown occurs")
-            
         }
     }
 
@@ -59,19 +54,19 @@ const Footer = () => {
 
     return (
         <div className='flex w-full'>
-            <div id='favorites' className='bg-white w-1/3'>
+            <div id='favorites' className='bg-[#DFC5FE] w-1/3 rounded-4xl border-black border-2'>
                 <button onClick={handleClick} className='flex w-full justify-around cursor-pointer'>
                     <p>Favorites</p>
                     <Shuffle />
                 </button>
             </div>
-            <div id='search-bar' className='bg-blue-400 flex align-baseline w-1/3 justify-between'>
+            <div id='search-bar' className='bg-[#DFC5FE] flex align-baseline w-1/3 justify-between rounded-4xl border-black border-2'>
                 <input onKeyDown={(event) => setSearchPokemonKeyDown(event)} onChange={(event) => handleInput(event.target.value)} className='h-full' placeholder='Enter pokemon' type='text' />
                 <button onClick={setSearchPokemon} >
                     <Arrow />
                 </button>
             </div>
-            <div id='randomizer' className='bg-white w-1/3'>
+            <div id='randomizer' className='bg-[#DFC5FE] w-1/3 rounded-4xl border-black border-2'>
                 <button className='cursor-pointer w-full' onClick={handleRandomizer}>
                     <p>Randomizer</p>
                 </button>

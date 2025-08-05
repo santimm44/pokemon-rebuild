@@ -12,26 +12,21 @@ const PokemonImage = () => {
   const [pokemonSrcImage, setPokemonSrcImage] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png")
   const [pokemonSrcShinyImage, setPokemonSrcShinyImage] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/132.png")
   const [shinyOrNot, setShinyOrNot] = useState(false)
-  const [pokeData, setPokeData] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchPokemonImage = async () => {
       const pokemonData = await getPokemon(myAppContext.searchPokemon ? myAppContext.searchPokemon : "eevee");
-  
+
       if (pokemonData) {
-        setPokeData(true);
-        console.log(pokemonData);
         setPokemonSrcImage(pokemonData.sprites.front_default);
-        console.log(pokemonData.sprites.front_shiny);
+
         if (pokemonData.sprites.front_shiny) {
           setPokemonSrcShinyImage(pokemonData.sprites.front_shiny);
         }
         setPokemonName(pokemonData.name);
-      } else {
-        setPokeData(false);
       }
     };
-  
+
     fetchPokemonImage();
   }, [myAppContext.searchPokemon]);
 

@@ -2,7 +2,6 @@
 import React from 'react'
 import Image from 'next/image'
 import shuffle from '/public/shuffle-solid.svg'
-import { useAppContext } from '@/context/context'
 const Shuffle = () => {
 
   return (

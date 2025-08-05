@@ -2,13 +2,10 @@
 
 import { getEvolution, getLocalStorage, getLocation, getPokemon, getSpecies } from '@/lib/services';
 import { useAppContext } from '../../context/context'
-
 import React, { useEffect, useState } from 'react'
 
 const MainTextContent = () => {
   const myAppContext = useAppContext();
-
-
   interface PokemonTypes {
     typeOne: string,
     typeTwo: string
@@ -24,22 +21,17 @@ const MainTextContent = () => {
   const [pokemonEvolutions, setPokemonEvolutions] = useState<string[]>([])
   const [buttonClicked, setButtonClick] = useState<string>("Location")
   const [favoriteList, setFavoriteList] = useState<string[]>([])
-
   const buttonNames: string[] = ["Location", "Abilities", "Moves", "Evolution"]
 
   const handleButtonClick = (buttonName: string) => {
-    console.log(buttonName)
     setButtonClick(buttonName)
   }
 
   const handleFavoriteButtons = (name: string) => {
-    console.log(name)
     myAppContext.setSearchPokemon(name)
-
   }
 
   useEffect(() => {
-    console.log(getLocalStorage())
     setFavoriteList(getLocalStorage())
     if (myAppContext.showFavorites == true) {
       setButtonClick("Favorites")
@@ -75,7 +67,6 @@ const MainTextContent = () => {
         setPokemonAbilities(existingArray => [...existingArray, pokemonData.abilities[i].ability.name])
       }
 
-      //for loop to push all moves into variable moves
       for (let i = 0; i < pokemonData.moves.length; i++) {
         setPokemonMoves(existingArray => [...existingArray, pokemonData.moves[i].move.name])
       }
@@ -163,32 +154,24 @@ const MainTextContent = () => {
 
 
   return (
-    <div className='flex flex-col h-full bg-red-300 gap-y-6 '>
-
+    <div className='flex flex-col h-full gap-y-6 '>
       <div className='flex justify-around row-start-1 row-end-2 col-start-1 col-end-13'>
-        {
-          buttonNames.map((names, index) => {
+        {buttonNames.map((names, index) => {
             return (
               <div key={index}>
-                <button value={names} onClick={() => handleButtonClick(names)} className='hover:border-[#FF6961] cursor-pointer hover:bg-white hover:underline lg:row-start-1 lg:row-end-2 lg:col-start-5 lg:col-end-7 max-lg:col-start-8 max-lg:col-end-12 rounded-[4rem] border-2 mt-4 text-black border-black bg-white'>{names}</button>
+                <button value={names} onClick={() => handleButtonClick(names)} className='cursor-pointer  hover:underline lg:row-start-1 lg:row-end-2 lg:col-start-5 lg:col-end-7 max-lg:col-start-8 max-lg:col-end-12 mt-4 text-black'>{names}</button>
               </div>
             )
-          })
-        }
+          })}
       </div>
 
-      <div className='bg-[#ffffffBE]'>
-
+      <div className=''>
         <div className='flex justify-between ps-8 pt-4 pe-8 col-start-1 col-end-13 row-start-1 row-end-2'>
           <h2 className='font-bold max-sm:text-[.9rem] max-sm:flex max-sm:flex-col'>Type: {pokemonType?.typeOne} {pokemonType?.typeTwo != undefined ? pokemonType?.typeTwo : ""}</h2>
           <h2 className='font-bold max-sm:text-[.9rem] max-sm:flex max-sm:flex-col'>Name: {pokemonName}</h2>
           <h2 className='font-bold max-sm:text-[.9rem] max-sm:flex max-sm:flex-col'>Pokedex#{pokemonId}</h2>
         </div>
-        <div className=''>
-
-        </div>
-        <div id='bodyOfText' className=' overflow-y-scroll'>
-
+        <div id='bodyOfText'>
           <p className={`col-start-1 col-end-13 row-start-2 row-end-13 ${buttonClicked == "Evolution" ? "" : "hidden"}`}>
             {pokemonEvolutions.length > 1 ? pokemonEvolutions.join(" | ") : pokemonEvolutions}
           </p>
@@ -208,14 +191,12 @@ const MainTextContent = () => {
               {favoriteList.map((pokemon, index) => {
                 return (
                   <div key={index}>
-
                     <br />
                     <button onClick={() => handleFavoriteButtons(pokemon)} className='underline hover:text-blue-500'>
                       {pokemon}
                     </button>
                   </div>
-                )
-              })}
+                )})}
             </div>
           </div>
         </div>
