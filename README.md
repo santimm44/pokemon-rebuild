@@ -1,60 +1,30 @@
-# Pokemon
-
-## Notes/suggestions from Isaiah
-
-//npm run build
-//Correct all error
-//Host on vercel after fixing the error!!!
-
-## To Do
-
-1. Randomizer
-2. Favorites
-3. clear search field after user clicks enter or the button
-4. finish desktop UI
-5. Complete responsiveness
-
-## Santiago Jesus Montanez
-
-## 03/24/2025
+# Pokémon Search Website
 
 ## Description
 
-Create a single page pokemon application using the Pokemonapi and Next.JS / TypeScript
+A simple, responsive web app to look up information on your favorite classic Pokémon — from Generation I to Generation V.
 
-### Requirements
+### Key Features
 
-- using the Pokemon API https://pokeapi.co/
-- Ability to search by name and Pokedex Number
-  - only Gen 1 - 5 pokemon
-  - Ability to search by name and Pokedex Number
-  - Ability to get a random pokemon
-  - image of pokemon and shiny form
-  - Pokemon Name
-  - show 1 location from any game. If pokemon doesn't have a location, have it return "N/A"
-  - Element Typing
-  - All possible abilities
-  - All possible moves
-  - Show Evolutionary Paths, if pokemon doesn't have an evolutionary path, have it return "N/A"
-  - And a Favorites list
-- Fully Responsive using Tailwind CSS https://tailwindcss.com
-- Have a Prototype in Figma (Desktop, Tablet, Mobile)
+- Uses the [PokéAPI](https://pokeapi.co/)
+- Search by Pokémon name or Pokédex number (Gen I–V only)
+- Get a random Pokémon
+- View Pokémon name, elemental typing, abilities, and moves
+- Displays both normal and shiny forms
+- Displays one or more locations from any game (or “N/A” if none are found)
+- Displays evolutionary paths (or “N/A” if none are found)
+- Save favorites using local storage
+- Fully responsive using [Tailwind CSS](https://tailwindcss.com)
 
-Things to turn in:
+---
 
-- code, zipped
-- peer review
-- Links in comments
-  - github
-  - hosted in Vercel or Azure
-  - figma
+## Report Issues
 
-## Peer: David Monterrosa
+If you have any concerns or found issues, please open an issue and I'll do my best to address it.
 
-### Review
+---
 
-Overall everything functions as it should. I don't seen any glaring issues on that front. there are some minor issues with responsiveness which you can adjust. Specifically your menu button toggles that display the information like location, abilities, etc appears to overflow its container. Also the display area shrinks down a lot leaving a large gap. If you stack the pokemon image and the information display area, that should resolve both issues. Other than taht Great job with functionality.
+## Author
 
-## Response to Peer review
-
-I was unable to fix the issues mentioned. I am having a hard time trying to resolve the overflow. Tried adding overflow-y-scroll at a few different places, but it seems to still grow. Looking into how to resolve the issue. As for the large gap... Unsure where it is you are seeing it or what you did to begin seeing it, so I don't know how to move forward with it. 
+**Santiago Jesus Montanez**
+[GitHub](https://github.com/santimm44) • [Portfolio](https://santiagomontanez.dev) • [Linked](https://www.linkedin.com/in/santiago-jm)
